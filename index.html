@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make Force Layout</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="networkmain.js"></script>
+</head>
+<body>
+    <div id="controls">
+        <label for="linkStrength">Link Strength:</label>
+        <input type="range" id="linkStrength" min="0" max="1" step="0.1" value="0.5">
+
+        <label for="collideForce">Collide Force:</label>
+        <input type="range" id="collideForce" min="0" max="1" step="0.1" value="0.5">
+
+        <label for="chargeForce">Charge Force:</label>
+        <input type="range" id="chargeForce" min="-100" max="100" step="1" value="30">
+
+        <label for="nodeSize">Node Size:</label>
+        <input type="radio" id="numPublications" name="nodeSize" value="NumPublications" checked>
+        <label for="numPublications">Number of Publications</label>
+        <input type="radio" id="degree" name="nodeSize" value="Degree">
+        <label for="degree">Degree</label>
+        <input type="radio" id="TotalCitations" name="nodeSize" value="TotalCitations">
+        <label for="TotalCitations">TotalCitations</label>
+    </div>
+
+    <svg id="network" viewBox="0 0 400 200"></svg>
+
+    <div id="details-panel"></div>
+
+    <script>
+        d3.json("sample_network.json").then(function (data) {
+            const window_dim = {
+                width: window.innerWidth,
+                height: window.innerHeight
+            };
+
+            const svgWidth = window_dim.width * 2.5;
+            const svgHeight = window_dim.height * 2.5;
+
+            const svg = d3.select('#network')
+                .append("svg")
+                .attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`);
+
+            const detailsPanel = d3.select('#details-panel');
+            const controls = d3.select('#controls');
+
+            simulate(data, svg, detailsPanel, controls);
+        });
+    </script>
+</body>
+</html>
+
